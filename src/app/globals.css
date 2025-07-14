@@ -2,5 +2,5 @@
 @import "tailwindcss";
 
 * {
-  font-family: inter !important;
+  font-family: inter, sans-serif;
 }
