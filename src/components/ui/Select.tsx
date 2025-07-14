@@ -3,7 +3,7 @@
 import { Listbox } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Fragment, useState } from "react";
-import "flag-icons/css/flag-icons.min.css";
+import "flag-icons/css/flag-icons.min.css"; // Ensure flag-icons is imported
 
 const countries = [
   { name: "India", code: "in" },
