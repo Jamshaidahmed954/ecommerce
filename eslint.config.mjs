@@ -1,16 +1,51 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import next from "@next/eslint-plugin-next";
+import typescript from "@typescript-eslint/eslint-plugin";
+import hooks from "eslint-plugin-react-hooks";
+import sort from "eslint-plugin-simple-import-sort";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const isProduction = process.env.NODE_ENV === "production";
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+export default [
+  {
+    plugins: {
+      "@next/next": next,
+      "@typescript-eslint": typescript,
+      "react-hooks": hooks,
+      "simple-import-sort": sort,
+    },
+    rules: {
+      // Next.js rules
+      "@next/next/no-html-link-for-pages": "error",
+      "@next/next/no-img-element": "warn",
 
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+      // TypeScript rules
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
+
+      // React rules
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+
+      // Environment-specific rules
+      "no-debugger": isProduction ? "error" : "off",
+      "no-console": isProduction
+        ? ["warn", { allow: ["warn", "error"] }]
+        : "off",
+
+      // General code quality
+      eqeqeq: ["error", "always"],
+      "no-multi-spaces": "error",
+      "no-trailing-spaces": "error",
+    },
+  },
+  {
+    ignores: ["**/node_modules/", "**/.next/", "**/out/", "**/dist/"],
+  },
 ];
-
-export default eslintConfig;
